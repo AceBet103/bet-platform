@@ -1,0 +1,21 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+input, button {
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 5px;
+  border: none;
+}
+
+button {
+  cursor: pointer;
+  background: #00c6ff;
+  color: black;
+  font-weight: bold;
+}
