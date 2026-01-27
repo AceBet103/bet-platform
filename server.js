@@ -24,7 +24,13 @@ const admin = require("./middleware/admin");
 const app = express();
 
 /* ---------- GLOBAL MIDDLEWARE ---------- */
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://bet-platform-pearl.vercel.app"
+  ]
+}));
+
 app.use(express.json());
 
 /* ---------- ROUTE REGISTRATION ---------- */
@@ -209,7 +215,7 @@ app.get("/api/events", async (req, res) => {
 });
 
 /* ---------- SERVER START ---------- */
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log("Serveur lancé sur http://localhost:" + PORT);
+  console.log("Serveur lancé sur le port " + PORT);
 });
