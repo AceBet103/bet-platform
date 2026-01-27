@@ -8,15 +8,15 @@ export default function AdminDashboard() {
 
   const fetchData = async () => {
     try {
-      const eventsRes = await fetch("http://localhost:5000/api/events");
+      const eventsRes = await fetch("https://bet-platform.onrender.com/api/events");
       const eventsData = await eventsRes.json();
       setEvents(eventsData);
 
-      const betsRes = await fetch("http://localhost:5000/api/admin/bets");
+      const betsRes = await fetch("https://bet-platform.onrender.com/api/bets");
       const betsData = await betsRes.json();
       setBets(betsData);
 
-      const usersRes = await fetch("http://localhost:5000/api/admin/users");
+      const usersRes = await fetch("https://bet-platform.onrender.com/api/users");
       const usersData = await usersRes.json();
       setUsers(usersData);
     } catch (err) {

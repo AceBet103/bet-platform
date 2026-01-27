@@ -9,7 +9,7 @@ export default function Events() {
   const userId = "6961a8e157a36e1fcbc63046";
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/events")
+    fetch("https://bet-platform.onrender.com/api/events")
       .then(res => res.json())
       .then(data => setEvents(data))
       .catch(err => console.error("Fetch events error:", err));
@@ -17,7 +17,7 @@ export default function Events() {
 
   const placeBet = async (eventId, choice) => {
     try {
-      const res = await fetch("http://localhost:5000/api/bets", {
+      const res = await fetch("https://bet-platform.onrender.com/api/bets", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
