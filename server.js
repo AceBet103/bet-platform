@@ -7,7 +7,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 /* ---------- MODELS ---------- */
-const Event = require("./models/event");
+const Event = require("./models/Event");
 const Bet = require("./models/Bet");
 const User = require("./models/User");
 const Transaction = require("./models/Transaction"); // ✅ UNE SEULE FOIS
