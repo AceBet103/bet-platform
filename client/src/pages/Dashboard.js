@@ -71,7 +71,7 @@ useEffect(() => {
 const depositMoney = async () => {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("http://localhost:5000/api/user/deposit", {
+  const res = await fetch("https://bet-platform-api.onrender.com/api/user/deposit", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -94,7 +94,7 @@ const depositMoney = async () => {
 const withdrawMoney = async () => {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("http://localhost:5000/api/user/withdraw", {
+  const res = await fetch("https://bet-platform-api.onrender.com/api/user/withdraw", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -117,7 +117,7 @@ const withdrawMoney = async () => {
 const placeBet = async (eventId, team) => {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("http://localhost:5000/api/user/bet", {
+  const res = await fetch("https://bet-platform-api.onrender.com/api/user/profile", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
