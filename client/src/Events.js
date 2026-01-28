@@ -4,9 +4,7 @@ import BetHistory from "./BetHistory";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
-  const [balance, setBalance] = useState(0);
-
-  const userId = "6961a8e157a36e1fcbc63046";
+  const userId = "6961a8e157a36e1fcbc63046"; // temporaire pour test
 
   useEffect(() => {
     fetch("https://bet-platform.onrender.com/api/events")
@@ -20,43 +18,49 @@ export default function Events() {
       const res = await fetch("https://bet-platform.onrender.com/api/bets", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId,
-          eventId,
-          choice,
-          amount: 10
-        })
+        body: JSON.stringify({ userId, eventId, choice, amount: 10 })
       });
 
       const data = await res.json();
-      setBalance(data.balance);
+      alert(data.message || "Bet placed!");
     } catch (err) {
-      console.error("Place bet error:", err);
+      console.error("Bet error:", err);
+      alert("Error placing bet");
     }
   };
 
   return (
-    <div>
-      <h2>Événements</h2>
-      <p>Solde: {balance}$</p>
+    <div style={{ padding: "20px" }}>
+      <h2>Available Events</h2>
 
-      {events.map(e => (
-        <div key={e._id} style={{ marginBottom: 15 }}>
-          {e.teamA} vs {e.teamB}
-          <br />
-          Cotes: {e.oddsA} / {e.oddsB}
-          <br />
-          <button onClick={() => placeBet(e._id, "A")}>Parier A</button>
-          <button onClick={() => placeBet(e._id, "B")} style={{ marginLeft: 10 }}>
-            Parier B
+      {events.length === 0 && <p>Loading events...</p>}
+
+      {events.map(event => (
+        <div
+          key={event._id}
+          style={{
+            border: "1px solid #ccc",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "8px"
+          }}
+        >
+          <h3>{event.teamA} vs {event.teamB}</h3>
+          <p>Odds A: {event.oddsA}</p>
+          <p>Odds B: {event.oddsB}</p>
+
+          <button onClick={() => placeBet(event._id, "A")}>
+            Bet on {event.teamA}
+          </button>
+
+          <button
+            onClick={() => placeBet(event._id, "B")}
+            style={{ marginLeft: "10px" }}
+          >
+            Bet on {event.teamB}
           </button>
         </div>
       ))}
-
-      <hr />
-
-      <UserRanking />
-      <BetHistory userId={userId} />
     </div>
   );
 }
