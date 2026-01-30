@@ -5,7 +5,7 @@ export default function BetHistory() {
   const [bets, setBets] = useState([]);
 
   useEffect(() => {
-    fetchWithAuth("http://localhost:5000/api/user/bets")
+    fetchWithAuth("https://bet-platform-api.onrender.com/api/user/bets")
       .then(res => res.json())
       .then(data => setBets(data));
   }, []);

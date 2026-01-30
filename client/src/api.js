@@ -1,42 +1,18 @@
-export async function apiFetch(url, options = {}) {
-  let accessToken = localStorage.getItem("accessToken");
+const API_URL = process.env.REACT_APP_API_URL;
 
-  const res = await fetch(url, {
-    ...options,
+export const apiFetch = async (endpoint, options = {}) => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`${API_URL}${endpoint}`, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-      ...options.headers
-    }
+      ...(token && { Authorization: `Bearer ${token}` })
+    },
+    ...options
   });
 
-  if (res.status === 401) {
-    const refreshToken = localStorage.getItem("refreshToken");
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "API Error");
 
-    const refreshRes = await fetch("http://localhost:5000/api/auth/refresh", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refreshToken })
-    });
-
-    const refreshData = await refreshRes.json();
-
-    if (refreshData.accessToken) {
-      localStorage.setItem("accessToken", refreshData.accessToken);
-
-      return fetch(url, {
-        ...options,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${refreshData.accessToken}`,
-          ...options.headers
-        }
-      });
-    } else {
-      localStorage.clear();
-      window.location.href = "/";
-    }
-  }
-
-  return res;
-}
+  return data;
+};

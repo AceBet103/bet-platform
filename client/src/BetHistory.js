@@ -5,7 +5,7 @@ export default function BetHistory({ userId }) {
   const [bets, setBets] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/user/${userId}/bets`)
+    fetch(`https://bet-platform-api.onrender.com/api/user/${userId}/bets`)
       .then(res => res.json())
       .then(data => setBets(data))
       .catch(err => console.error("History error:", err));
