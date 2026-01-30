@@ -33,11 +33,14 @@ export default function AdminDashboard() {
 
   const closeEvent = async (eventId, winner) => {
     try {
-      const res = await fetch(`${API}/api/events/close`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ eventId, winner })
-      });
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/events/${eventId}/resolve`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("token")}`
+  },
+  body: JSON.stringify({ winner })
+});
 
       const data = await res.json();
       setMessage(data.message);

@@ -8,36 +8,40 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const submit = async (e) => {
     e.preventDefault();
+    setError("");
 
     try {
-      const res = await fetch("https://bet-platform-api.onrender.com/api/auth/login", {
-     method: "POST",
-     headers: { "Content-Type": "application/json" },
-     body: JSON.stringify({ email, password })
-     });
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
 
       const data = await res.json();
 
-      if (data.accessToken) {
-        localStorage.setItem("token", data.accessToken);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        login(data.user);
-        navigate("/dashboard");
-      } else {
-        alert(data.message);
+      if (!res.ok) {
+        return setError(data.message || "Login failed");
       }
+
+      // utilise ton AuthContext
+      login(data.user, data.token);
+
+      navigate("/dashboard");
+
     } catch (err) {
-      console.error(err);
-      alert("Server error");
+      setError("Server error");
     }
   };
 
   return (
     <form onSubmit={submit}>
       <h2>Login</h2>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       <input
         type="email"

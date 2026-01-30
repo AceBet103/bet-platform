@@ -143,8 +143,8 @@ return (
     <div>
       <h2>Dashboard</h2>
     {user?.role === "admin" && (
-  <button onClick={() => window.location.href = "/admin"}>
-    Go to Admin Panel
+  <button onClick={() => window.location.href="/admin"}>
+    Admin Panel
   </button>
 )}
     <p>Welcome {user?.username}</p>
