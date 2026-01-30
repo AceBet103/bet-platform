@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const API = process.env.REACT_APP_API_URL;
+
 export default function AdminDashboard() {
   const [events, setEvents] = useState([]);
   const [bets, setBets] = useState([]);
@@ -8,17 +10,18 @@ export default function AdminDashboard() {
 
   const fetchData = async () => {
     try {
-      const eventsRes = await fetch("https://bet-platform.onrender.com/api/events");
+      const eventsRes = await fetch(`${API}/api/events`);
       const eventsData = await eventsRes.json();
       setEvents(eventsData);
 
-      const betsRes = await fetch("https://bet-platform.onrender.com/api/bets");
+      const betsRes = await fetch(`${API}/api/bets`);
       const betsData = await betsRes.json();
       setBets(betsData);
 
-      const usersRes = await fetch("https://bet-platform.onrender.com/api/users");
+      const usersRes = await fetch(`${API}/api/users`);
       const usersData = await usersRes.json();
       setUsers(usersData);
+
     } catch (err) {
       setMessage("Erreur lors du chargement des données");
     }
@@ -30,7 +33,7 @@ export default function AdminDashboard() {
 
   const closeEvent = async (eventId, winner) => {
     try {
-      const res = await fetch("http://localhost:5000/api/events/close", {
+      const res = await fetch(`${API}/api/events/close`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ eventId, winner })
@@ -52,13 +55,11 @@ export default function AdminDashboard() {
       <h3>⚽ Événements</h3>
       <ul>
         {events.map(e => (
-          <li key={e._id} style={{ marginBottom: "10px" }}>
+          <li key={e._id}>
             {e.teamA} vs {e.teamB} — Status: {e.status} — Winner: {e.winner || "?"}
             <br />
-            <button onClick={() => closeEvent(e._id, "A")}>
-              Clôturer {e.teamA}
-            </button>
-            <button onClick={() => closeEvent(e._id, "B")} style={{ marginLeft: "10px" }}>
+            <button onClick={() => closeEvent(e._id, "A")}>Clôturer {e.teamA}</button>
+            <button onClick={() => closeEvent(e._id, "B")} style={{ marginLeft: 10 }}>
               Clôturer {e.teamB}
             </button>
           </li>

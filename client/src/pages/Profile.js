@@ -5,7 +5,7 @@ export default function Profile() {
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    fetchWithAuth("http://localhost:5000/api/user/profile")
+    fetchWithAuth("https://bet-platform-api.onrender.com/api/user/profile")
       .then(res => res.json())
       .then(data => setProfile(data));
   }, []);
