@@ -1,37 +1,43 @@
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import Admin from "./pages/Admin";
+import AdminDashboard from "./pages/AdminDashboard";
+import Events from "./pages/Events";
+
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
-import Wallet from "./pages/Wallet";
-function App() {
+
+export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Events />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-      <Route
-        path="/dashboard"
-        element={
-          <PrivateRoute>
-            <Dashboard />
-          </PrivateRoute>
-        }
-      />
+        {/* 🔒 Routes privées */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
 
-      <Route
-        path="/admin"
-        element={
-          <AdminRoute>
-            <Admin />
-          </AdminRoute>
-        }
-      />
-      <Route path="/wallet" element={<Wallet />} />
-    </Routes>
+        {/* 👑 Route admin */}
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
-
-export default App;
