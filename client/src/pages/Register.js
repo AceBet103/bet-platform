@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -7,50 +7,76 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const submit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
 
-    const res = await fetch("https://bet-platform-api.onrender.com/api/auth/register", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ username, email, password })
-});
+    try {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password })
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      alert("Registration successful. Please login.");
-      navigate("/");
-    } else {
-      alert(data.message);
+      if (res.ok) {
+        setSuccess("Account created! You can now log in.");
+        setTimeout(() => navigate("/login"), 1500);
+      } else {
+        setError(data.message || "Registration failed");
+      }
+    } catch {
+      setError("Server error");
     }
   };
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={submit} style={{ padding: 20 }}>
       <h2>Register</h2>
 
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {success && <p style={{ color: "green" }}>{success}</p>}
+
       <input
+        type="text"
         placeholder="Username"
         value={username}
         onChange={e => setUsername(e.target.value)}
+        required
       />
 
+      <br /><br />
+
       <input
+        type="email"
         placeholder="Email"
         value={email}
         onChange={e => setEmail(e.target.value)}
+        required
       />
+
+      <br /><br />
 
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={e => setPassword(e.target.value)}
+        required
       />
 
-      <button>Register</button>
+      <br /><br />
+
+      <button type="submit">Create Account</button>
+
+      <p style={{ marginTop: 10 }}>
+        Already have an account? <Link to="/login">Login here</Link>
+      </p>
     </form>
   );
 }
