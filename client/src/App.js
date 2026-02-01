@@ -5,7 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
-
+import Wallet from "./pages/Wallet";
 function App() {
   return (
     <Routes>
@@ -29,6 +29,7 @@ function App() {
           </AdminRoute>
         }
       />
+      <Route path="/wallet" element={<Wallet />} />
     </Routes>
   );
 }

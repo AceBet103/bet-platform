@@ -23,22 +23,19 @@ export default function Login() {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        return setError(data.message || "Login failed");
+      if (res.ok && data.token) {
+        login(data.user, data.token); // met à jour le contexte
+        navigate("/dashboard");
+      } else {
+        setError(data.message || "Login failed");
       }
-
-      // utilise ton AuthContext
-      login(data.user, data.token);
-
-      navigate("/dashboard");
-
-    } catch (err) {
+    } catch {
       setError("Server error");
     }
   };
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={submit} style={{ padding: 20 }}>
       <h2>Login</h2>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -51,6 +48,8 @@ export default function Login() {
         required
       />
 
+      <br /><br />
+
       <input
         type="password"
         placeholder="Password"
@@ -58,6 +57,8 @@ export default function Login() {
         onChange={e => setPassword(e.target.value)}
         required
       />
+
+      <br /><br />
 
       <button type="submit">Login</button>
 
